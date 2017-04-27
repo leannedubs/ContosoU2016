@@ -43,6 +43,11 @@ namespace ContosoU2016
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            ///////   LWilliston : School Services 
+            services.AddDbContext<SchoolContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            ////// 
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -55,7 +60,8 @@ namespace ContosoU2016
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, SchoolContext context) 
+        // LW (added SchoolContext Middleware to the pipeline
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -83,6 +89,13 @@ namespace ContosoU2016
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // initialize the database with SEED Data. 
+            DbInitializer.Initialize(context);
+            // The first time you run the application, the database will be created and seeded with test data. 
+            // Whenever you chage your data modle, you can delete the database, update your seed method and start fresh with a new database the same way. 
+            
+            // Later we will modify the databse when the data model changes, without deleting and re-creating it using CODE FIRST MIGRATIONS
         }
     }
 }
