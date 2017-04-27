@@ -1,3 +1,26 @@
-﻿@{
+﻿@* LWilliston :  setup site style 
+                 different layout for home page
+*@
+
+
+@*@{
     Layout = "_LayoutCarousel";
+}*@
+
+@{ 
+    // Retrieve current controller
+    string controller = ViewContext.RouteData.Values["Controller"].ToString();
+
+    // Retrieve current actions 
+    string action = ViewContext.RouteData.Values["Action"].ToString();
+
+    // Check if user is on Home Controller and Index Action
+    if (controller == "Home" && action == "Index")
+    {
+        Layout = "_LayoutCarousel";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
 }
