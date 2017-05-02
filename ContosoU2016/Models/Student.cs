@@ -11,6 +11,7 @@ namespace ContosoU2016.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode =true)]
         [DataType(DataType.Date)]
 
+        [Display(Name = "Enrollment Date")]
         public DateTime EnrollmentDate { get; set; }
 
         // ---------- Navigation Property ----------//
