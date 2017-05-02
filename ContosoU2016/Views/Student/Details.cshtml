@@ -34,6 +34,29 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
+        @* lwilliston: Added Student Enrollment *@
+        <dt>
+            Your Courses
+        </dt>
+        <dd>
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr class="info">
+                        <td>Course Title</td>
+                        <td>Grade</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model.Enrollments)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(m=>item.Course.Title)</td>
+                            <td>@Html.DisplayFor(m => item.Grade)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </dd>
     </dl>
 </div>
 <div>
