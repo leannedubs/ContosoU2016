@@ -19,14 +19,36 @@ namespace ContosoU2016.Models
         public int CourseID { get; set; } //PK
 
         [StringLength(50, MinimumLength =3)]
+        [Required]
         public string Title { get; set; }
 
         [Range(0,5)]
         public int Credits { get; set; }
 
+        [Display(Name ="Department ID")]
+        public int DepartmentID { get; set; }
+
         // ---------- Navigation Properties ---------- //
         // 1 course, many enrollments 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
+
+        // 1 course, many instructors
+        public virtual ICollection<CourseAssignment> Assignments { get; set; }
+
+        public virtual Department Departmemt { get; set; }
+
+
+
+        // Calculated Property 
+        // Return the CourseID and CourseTitle
+
+        public string CourseIDTitle
+        {
+            get
+            {
+                return CourseID + ": " + Title;  // ie.   1: Math  2: English
+            }
+        }
 
 
 

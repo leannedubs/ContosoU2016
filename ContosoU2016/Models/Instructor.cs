@@ -14,7 +14,14 @@ namespace ContosoU2016.Models
         public DateTime HireDate { get; set; }
 
         // ---------- Navigation Propertity ---------- //
-        //public virtual ICollection<CourseAssignment> Courses { get; set; }
-        //public virtual OfficeAssignment OfficeAssignment { get; set; }
+
+
+        // and instructor can teach any number of course, so courses is defined as a collection of the courseassigenment entity.
+        public virtual ICollection<CourseAssignment> Courses { get; set; }
+
+
+        // an instructor can only have at most one office, so the officeassignment property holds a single office assignment
+        // which may be null fi there is no office assigned. 
+        public virtual OfficeAssignment OfficeAssignment { get; set; }
     }
 }

@@ -25,6 +25,12 @@ namespace ContosoU2016.Data
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Course> Courses { get; set; }
 
+        // Complex Data Model
+        public DbSet<OfficeAssignment> OfficeAssignments { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<CourseAssignment> CourseAssignments { get; set; }
+
+
         // When the database is created, EF creates tables that have names the same as the DBSet property names. 
         // Property Names for collections are typically plural (Studnets rather than Student)
         // Developers disagree about whether table names should be pluralized or not. 
@@ -35,6 +41,15 @@ namespace ContosoU2016.Data
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Student>().ToTable("Student");
             modelBuilder.Entity<Instructor>().ToTable("Instructor");
+            modelBuilder.Entity<Person>().ToTable("People");
+
+            // Complex Data Model
+            modelBuilder.Entity<OfficeAssignment>().ToTable("OfficeAssignment");
+            modelBuilder.Entity<CourseAssignment>().ToTable("CourseAssignment");
+            modelBuilder.Entity<Department>().ToTable("Department");
+
+            // Composite PK on CourseAssignment.
+            modelBuilder.Entity<CourseAssignment>().HasKey(c => new { c.CourseID, c.InstructorID });
         }
     }
 }
