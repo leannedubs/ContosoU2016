@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ContosoU2016.Data;
 using ContosoU2016.Models;
 using ContosoU2016.Helpers;
+using ContosoU2016.Models.SchoolViewModels;
 
 namespace ContosoU2016.Controllers
 {
@@ -300,6 +301,24 @@ namespace ContosoU2016.Controllers
                 //  and a flag argument set to TRUE for representing an error saving record
                 return RedirectToAction("Delete", new { id = id ,saveChangesError = true});
             }
+        }
+
+        // lwilliston
+        // GET Student Stats
+        public async Task<IActionResult> Stats()
+        {
+            // populate the EnrollmentDateGroup Model with student statistics
+            IQueryable<EnrollmentDateGroup> data =
+                from student in _context.Students //FROM Studnets 
+                group student by student.EnrollmentDate into dateGroup //GROUP BY EnrollmentDate
+                select new EnrollmentDateGroup // SELECT EnrollmentDate COUNT(*) as StudentCount
+                {
+                    EnrollmentDate = dateGroup.Key,
+                    StudentCount = dateGroup.Count()
+                };
+
+
+            return View(await data.AsNoTracking().ToListAsync());
         }
 
         private bool StudentExists(int id)

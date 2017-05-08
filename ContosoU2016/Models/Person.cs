@@ -36,5 +36,13 @@ namespace ContosoU2016.Models
                 return LastName + ", " + FirstName;
             }
         }
+
+        public string IdFullName
+        {
+            get
+            {
+                return "(" + ID + ") " + LastName + "," + FirstName;
+            }
+        }
     }
 }

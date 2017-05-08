@@ -1,4 +1,6 @@
-﻿namespace ContosoU2016.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ContosoU2016.Models
 {
     // Grade Enumeration
     public enum Grade
@@ -26,6 +28,7 @@
         // Foreign key properties can also be named simple <primary key property name> for example: 
         // CourseID, since the Course Entity's primary key is Course ID. 
 
+        [DisplayFormat(NullDisplayText ="No Grade")]// Show "No Grade" instead of blank space when grade is null
         public Grade? Grade { get; set; }  // ? = Nullable : because students aren't given a grade when registering. 
 
         // ---------- Navigation Properties ---------- //
