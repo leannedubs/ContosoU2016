@@ -22,7 +22,7 @@ namespace ContosoU2016.Controllers
         }
 
         // lwilliston:  Reading related data
-        // build a custom methof to return a sorted list of departments for our dropdown filter.
+        // build a custom method to return a sorted list of departments for our dropdown filter.
 
         private IQueryable<Course> GetCourses(int? SelectedDepartment)
         {

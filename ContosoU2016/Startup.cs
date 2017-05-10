@@ -57,11 +57,26 @@ namespace ContosoU2016
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            // ASP.NET services can be configured with the following lifetimes: 
+            //      == Transient ==
+            //  Services are created each time they are requested. This lifetime works best for lightweight, stateless services. 
+
+            //      == Scoped ==
+            //  Services are creates once per request. 
+
+            //      == Singleton ==
+            //  Services are created the first time they are requested (or when configureServices is fun if you specift the instance there)
+            //  and then every subsequent request will use the same instance. 
+
+            // lwilliston: Service for seeding admin user and roles. 
+            services.AddTransient<AdministratorSeedData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, SchoolContext context) 
-        // LW (added SchoolContext Middleware to the pipeline
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, SchoolContext context, AdministratorSeedData seeder) 
+        // lwilliston (added SchoolContext Middleware to the pipeline)
+        // lwilliston (added AdministratorSeeData to the pipeline)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -91,11 +106,14 @@ namespace ContosoU2016
             });
 
             // initialize the database with SEED Data. 
-            DbInitializer.Initialize(context);
+            //DbInitializer.Initialize(context);
             // The first time you run the application, the database will be created and seeded with test data. 
             // Whenever you chage your data modle, you can delete the database, update your seed method and start fresh with a new database the same way. 
-            
+
             // Later we will modify the databse when the data model changes, without deleting and re-creating it using CODE FIRST MIGRATIONS
+
+            // seed the administrator and roles
+            await seeder.EnsureSeedData();
         }
     }
 }
